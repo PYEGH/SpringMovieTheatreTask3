@@ -4,13 +4,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.dao.user.UserDAO;
 import com.epam.moviemanagment.domain.converter.UserConverter;
 import com.epam.moviemanagment.domain.dto.User;
 import com.epam.moviemanagment.domain.entity.UserEntity;
 
+@Component("UserServiceBean")
+@Scope("prototype")
 public class UserServiceImpl implements UserService {
 
+	@Autowired
 	private UserDAO userDao;
 
 	public UserServiceImpl(final UserDAO userDao) {

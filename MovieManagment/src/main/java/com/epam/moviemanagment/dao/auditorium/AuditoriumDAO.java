@@ -10,7 +10,7 @@ public interface AuditoriumDAO {
 	 * 
 	 * @return set of all auditoriums
 	 */
-	public Set<AuditoriumEntity> getAll();
+	Set<AuditoriumEntity> getAll();
 
 	/**
 	 * Finding auditorium by name
@@ -19,5 +19,5 @@ public interface AuditoriumDAO {
 	 *            Name of the auditorium
 	 * @return found auditorium or <code>null</code>
 	 */
-	public AuditoriumEntity getByName(final String name);
+	AuditoriumEntity getByName(String name);
 }

@@ -9,12 +9,12 @@ import com.epam.moviemanagment.domain.entity.TicketEntity;
 import com.epam.moviemanagment.storage.TicketStorage;
 
 public interface TicketDAO {
-	public Set<TicketEntity> getPurchasedTicketsForEvent(Event event,
+	Set<TicketEntity> getPurchasedTicketsForEvent(Event event,
 			Calendar dateTime);
 
-	public TicketEntity save(final TicketEntity ticketEntity);
+	TicketEntity save(TicketEntity ticketEntity);
 
-	public void remove(final TicketEntity ticketEntity);
+	void remove(TicketEntity ticketEntity);
 
-	public TicketEntity getById(final Long id);
+	TicketEntity getById(Long id);
 }

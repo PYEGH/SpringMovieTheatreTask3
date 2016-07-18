@@ -12,12 +12,12 @@
 
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.ver>3.2.13.RELEASE</spring.ver>
+		<spring.ver>3.2.17.RELEASE</spring.ver>
+		<aspectj.ver>1.8.9</aspectj.ver>
+		<log4g.ver>1.2.16</log4g.ver>
 	</properties>
 
 	<dependencies>
-
-
 		<!-- Main Spring dependencies(spring-context, spring-context-support) which 
 			include other necessary modules -->
 		<dependency>
@@ -31,10 +31,24 @@
 			<version>${spring.ver}</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.ver}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.ver}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.ver}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4g.ver}</version>
 		</dependency>
 	</dependencies>
 </project>

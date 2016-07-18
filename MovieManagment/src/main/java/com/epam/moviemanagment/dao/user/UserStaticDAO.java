@@ -3,10 +3,15 @@ package com.epam.moviemanagment.dao.user;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.domain.entity.DomainObjectEntity;
 import com.epam.moviemanagment.domain.entity.UserEntity;
 import com.epam.moviemanagment.storage.UserStaticStorage;
 
+@Component("UserStaticDAOBean")
+@Scope("prototype")
 public class UserStaticDAO implements UserDAO {
 
 	/**

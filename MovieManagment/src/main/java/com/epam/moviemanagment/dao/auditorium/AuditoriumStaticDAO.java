@@ -2,9 +2,14 @@ package com.epam.moviemanagment.dao.auditorium;
 
 import java.util.Set;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.domain.entity.AuditoriumEntity;
 import com.epam.moviemanagment.storage.AuditoriumStorage;
 
+@Component("AuditoriumStaticDAOBean")
+@Scope("prototype")
 public class AuditoriumStaticDAO implements AuditoriumDAO {
 
 	@Override

@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.domain.dto.Event;
 import com.epam.moviemanagment.domain.dto.Ticket;
 import com.epam.moviemanagment.domain.entity.TicketEntity;
@@ -13,6 +16,8 @@ import com.epam.moviemanagment.domain.entity.UserEntity;
 import com.epam.moviemanagment.storage.TicketStorage;
 import com.epam.moviemanagment.storage.UserStaticStorage;
 
+@Component("TicketStaticDAOBean")
+@Scope("prototype")
 public class TicketStaticDAO implements TicketDAO {
 
 	@Override

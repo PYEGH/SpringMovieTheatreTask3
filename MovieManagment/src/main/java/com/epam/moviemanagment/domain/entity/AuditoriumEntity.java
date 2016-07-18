@@ -51,7 +51,7 @@ public class AuditoriumEntity {
     }
     
     public Set<Long> getAllSeats() {
-    	final Set<Long> seats = new HashSet<Long>();
+    	final Set<Long> seats = new HashSet<>();
     	for(int i=1 ; i<numberOfSeats+1; i++){
     		seats.add(new Long(i));
     	}

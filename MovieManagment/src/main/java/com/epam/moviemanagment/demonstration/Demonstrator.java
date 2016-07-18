@@ -7,6 +7,12 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.epam.moviemanagment.aspect.CounterAspect;
 import com.epam.moviemanagment.domain.converter.EventConverter;
 import com.epam.moviemanagment.domain.dto.Auditorium;
 import com.epam.moviemanagment.domain.dto.Event;
@@ -26,23 +32,42 @@ import com.epam.moviemanagment.storage.EventStaticStorage;
  * information.
  * 
  */
+@Component("DemonstratorBean")
 public class Demonstrator {
+	private final Logger logger = Logger.getLogger(Demonstrator.class);
 
+	@Autowired
 	public UserService userService;
+	@Autowired
 	public AuditoriumService auditoriumService;
+	@Autowired
 	public BookingService bookingService;
+	@Autowired
 	public DiscountService discountService;
+	@Autowired
 	public EventService eventService;
+
+	public Demonstrator(final UserService userService,
+			final AuditoriumService auditoriumService,
+			final BookingService bookingService,
+			final DiscountService discountService,
+			final EventService eventService) {
+		this.userService = userService;
+		this.auditoriumService = auditoriumService;
+		this.bookingService = bookingService;
+		this.discountService = discountService;
+		this.eventService = eventService;
+	}
 
 	/**
 	 * Demonstrates auditoriumService work.
 	 */
 	public void demonstrateAuditoriumsViewing() {
-		System.out.println('\n' + "Demonstration of auditoriums selection:");
+		logger.info('\n' + "Demonstration of auditoriums selection:");
 		final Set<Auditorium> auditoriums = auditoriumService.getAll();
 
 		for (final Auditorium auditorium : auditoriums) {
-			System.out.println("Aud name: " + auditorium.getName() + "\n"
+			logger.info("Aud name: " + auditorium.getName() + "\n"
 					+ "Number of seats: " + auditorium.getNumberOfSeats()
 					+ "\n" + "Vip seats: " + auditorium.getVipSeats());
 		}
@@ -54,7 +79,7 @@ public class Demonstrator {
 	 * used
 	 */
 	public void demonstrateEventGettingAndPriceCalculating() {
-		System.out.println('\n' + "Demonstration of price calculating:");
+		logger.info('\n' + "Demonstration of price calculating:");
 
 		// Preparing data for getting price
 		// get some user
@@ -62,7 +87,8 @@ public class Demonstrator {
 				.getUserByEmail("ivan_ivanov@epam.com");
 		// get some event and date for this event
 		final Event event = this.eventService.getByName("Terminator");
-		final GregorianCalendar eventDate = new GregorianCalendar(2016, 7, 10, 15, 0);
+		final GregorianCalendar eventDate = new GregorianCalendar(2016, 7, 10,
+				15, 0);
 
 		// Create set of seats, for which user wants to get total price with all
 		// discounts
@@ -78,7 +104,7 @@ public class Demonstrator {
 		// where discounts for user are calculated.
 		final double totalPrice = this.bookingService.getTicketsPrice(event,
 				eventDate, user, seatForBooking);
-		System.out.println("Total price with discount: " + totalPrice);
+		logger.info("Total price with discount: " + totalPrice);
 	}
 
 	/**
@@ -88,17 +114,18 @@ public class Demonstrator {
 	 * shown number of his booked tickets before and after booking.
 	 */
 	public void demonstrateTicketsBooking() {
-		System.out.println('\n' + "Demonstration of tickets booking:");
+		logger.info('\n' + "Demonstration of tickets booking:");
 
 		// Just get event to find tickets for it
 		final EventEntity eventEntity = EventStaticStorage.getEvents().get(0);
 		final Event event = EventConverter.toDto(eventEntity);
-		final GregorianCalendar eventDate = new GregorianCalendar(2016, 7, 10, 15, 0);
+		final GregorianCalendar eventDate = new GregorianCalendar(2016, 7, 10,
+				15, 0);
 
 		// Check that at this moment we have 0 reserved tickets
 		Set<Ticket> tickets = this.bookingService.getPurchasedTicketsForEvent(
 				event, eventDate);
-		System.out.println("Number of purchased tickets before booking: "
+		logger.info("Number of purchased tickets before booking: "
 				+ tickets.size()); // 0 value must be showed here
 
 		// Get available tickets for this event
@@ -108,9 +135,8 @@ public class Demonstrator {
 		// Get registered user and create unregistered user
 		User registeredUser = this.userService
 				.getUserByEmail("ivan_ivanov@epam.com");
-		System.out
-				.println("Count of bought tickets for registered user before booking: "
-						+ registeredUser.getTickets().size());
+		logger.info("Count of bought tickets for registered user before booking: "
+				+ registeredUser.getTickets().size());
 		// Sign of unregistered user is absence of email.
 		final User unregisteredUser = new User();
 		unregisteredUser.setAdmin(false);
@@ -135,16 +161,15 @@ public class Demonstrator {
 
 		// Check that now we have 1 purchased ticket
 		tickets = bookingService.getPurchasedTicketsForEvent(event, eventDate);
-		System.out.println("Number of purchased tickets after booking:  "
+		logger.info("Number of purchased tickets after booking:  "
 				+ tickets.size());
 
 		// Also check that count of tickets for registered user was changed
 		// after booking.
 		registeredUser = this.userService
 				.getUserByEmail("ivan_ivanov@epam.com");
-		System.out
-				.println("Count of bought tickets for registered user before booking: "
-						+ registeredUser.getTickets().size());
+		logger.info("Count of bought tickets for registered user before booking: "
+				+ registeredUser.getTickets().size());
 
 	}
 
@@ -152,8 +177,8 @@ public class Demonstrator {
 	 * Demonstrates userService work. User is created and than is saved.
 	 */
 	public void demonstrateUserCreation() {
-		System.out.println('\n' + "Demonstration of user cetreation:");
-		System.out.println("Number users before user creation : "
+		logger.info('\n' + "Demonstration of user cetreation:");
+		logger.info("Number users before user creation : "
 				+ this.userService.getAll().size());
 		final User user = new User();
 		user.setAdmin(true);
@@ -164,28 +189,8 @@ public class Demonstrator {
 		user.setTickets(new TreeSet<Ticket>());
 		user.setBirthday(new GregorianCalendar(1990, 7, 10, 15, 0));
 		this.userService.save(user);
-		System.out.println("Number users after user creation :  "
+		logger.info("Number users after user creation :  "
 				+ this.userService.getAll().size());
 
-	}
-
-	public void setUserService(final UserService userService) {
-		this.userService = userService;
-	}
-
-	public void setAuditoriumService(final AuditoriumService auditoriumService) {
-		this.auditoriumService = auditoriumService;
-	}
-
-	public void setBookingService(BookingService bookingService) {
-		this.bookingService = bookingService;
-	}
-
-	public void setDiscountService(DiscountService discountService) {
-		this.discountService = discountService;
-	}
-
-	public void setEventService(final EventService eventService) {
-		this.eventService = eventService;
 	}
 }

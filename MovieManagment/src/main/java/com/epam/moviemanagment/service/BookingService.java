@@ -30,7 +30,7 @@ public interface BookingService {
 	 *            Set of seat numbers that user wants to buy
 	 * @return total price
 	 */
-	public double getTicketsPrice(Event event, Calendar dateTime, User user,
+	double getTicketsPrice(Event event, Calendar dateTime, User user,
 			Set<Long> seats);
 
 	/**
@@ -40,7 +40,7 @@ public interface BookingService {
 	 * @param tickets
 	 *            Set of tickets
 	 */
-	public void bookTickets(Set<Ticket> tickets);
+	void bookTickets(Set<Ticket> tickets);
 
 	/**
 	 * Method books selected by user tickets.
@@ -57,7 +57,7 @@ public interface BookingService {
 	 *            Date and time of airing of event
 	 * @return set of all purchased tickets
 	 */
-	public Set<Ticket> getPurchasedTicketsForEvent(Event event, Calendar dateTime);
+	Set<Ticket> getPurchasedTicketsForEvent(Event event, Calendar dateTime);
 
 	/**
 	 * Getting all available tickets for event on specific air date and time
@@ -68,6 +68,6 @@ public interface BookingService {
 	 *            Date and time of airing of event
 	 * @return set of all purchased tickets
 	 */
-	public Set<Ticket> getAvailableTicketsForEvent(Event event, Calendar dateTime);
+	Set<Ticket> getAvailableTicketsForEvent(Event event, Calendar dateTime);
 
 }

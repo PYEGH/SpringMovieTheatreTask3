@@ -12,5 +12,5 @@ public interface UserDAO extends AbstractDomainObjectDAO<UserEntity> {
      *            Email of the user
      * @return found user or <code>null</code>
      */
-    public UserEntity getUserByEmail(final String email);
+    UserEntity getUserByEmail(String email);
 }

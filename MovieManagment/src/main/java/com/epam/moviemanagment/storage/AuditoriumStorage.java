@@ -22,8 +22,8 @@ public class AuditoriumStorage {
 
 	static{
 		final List<Properties> properties = new ArrayList<>();
-		final Properties prop1 = getProperty("auditorium1.properties");
-		final Properties prop2 = getProperty("auditorium2.properties");
+		final Properties prop1 = getProperty("./src/main/resources/auditorium1.properties");
+		final Properties prop2 = getProperty("./src/main/resources/auditorium2.properties");
 		properties.add(prop1);
 		properties.add(prop2);
 		

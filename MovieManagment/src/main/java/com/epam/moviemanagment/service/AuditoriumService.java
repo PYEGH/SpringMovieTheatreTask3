@@ -13,7 +13,7 @@ public interface AuditoriumService {
      * 
      * @return set of all auditoriums
      */
-    public  Set<Auditorium> getAll();
+    Set<Auditorium> getAll();
 
     /**
      * Finding auditorium by name
@@ -22,6 +22,6 @@ public interface AuditoriumService {
      *            Name of the auditorium
      * @return found auditorium or <code>null</code>
      */
-    public Auditorium getByName( String name);
+    Auditorium getByName( String name);
 
 }

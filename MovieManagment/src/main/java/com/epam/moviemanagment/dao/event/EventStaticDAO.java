@@ -3,9 +3,14 @@ package com.epam.moviemanagment.dao.event;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.domain.entity.EventEntity;
 import com.epam.moviemanagment.storage.EventStaticStorage;
 
+@Component("EventStaticDAOBean")
+@Scope("prototype")
 public class EventStaticDAO implements EventDAO{
 
 	@Override

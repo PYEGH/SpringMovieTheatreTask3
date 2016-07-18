@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.dao.event.EventDAO;
 import com.epam.moviemanagment.dao.user.UserDAO;
 import com.epam.moviemanagment.domain.converter.EventConverter;
@@ -17,8 +21,11 @@ import com.epam.moviemanagment.domain.dto.User;
 import com.epam.moviemanagment.domain.entity.EventEntity;
 import com.epam.moviemanagment.domain.entity.UserEntity;
 
+@Component("EventServiceBean")
+@Scope("prototype")
 public class EventServiceImpl implements EventService {
 
+	@Autowired
 	private EventDAO eventDao;
 
 	public EventServiceImpl(final EventDAO eventDao) {

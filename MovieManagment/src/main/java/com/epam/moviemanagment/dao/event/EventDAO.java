@@ -11,5 +11,5 @@ public interface EventDAO extends AbstractDomainObjectDAO<EventEntity> {
      *            Name of the event
      * @return found event or <code>null</code>
      */
-    public EventEntity getByName(final String name);
+    EventEntity getByName(String name);
 }

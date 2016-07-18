@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.dao.ticket.TicketDAO;
 import com.epam.moviemanagment.domain.EventRating;
 import com.epam.moviemanagment.domain.converter.TicketConverter;
@@ -15,9 +20,17 @@ import com.epam.moviemanagment.domain.dto.User;
 import com.epam.moviemanagment.domain.entity.TicketEntity;
 import com.epam.moviemanagment.service.discount.DiscountService;
 
+@Component("bookingServiceBean")
+@Scope("prototype")
 public class BookingServiceImpl implements BookingService {
+	@Autowired
+	@Qualifier("ticketDAOBean")
 	private TicketDAO ticketDAO;
+	
+	@Autowired
 	private UserService userService;
+	
+	@Autowired
 	private DiscountService discountService;
 
 	private final static double BASE_RATING_COEF = 1;

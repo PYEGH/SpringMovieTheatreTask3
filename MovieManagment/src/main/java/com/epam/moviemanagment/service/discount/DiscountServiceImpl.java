@@ -4,11 +4,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.domain.dto.Event;
 import com.epam.moviemanagment.domain.dto.User;
 
+@Component("discountServiceBean")
+@Scope("prototype")
 public class DiscountServiceImpl implements DiscountService {
-
+	@Autowired
 	private List<DiscountStrategy> discountStrategies;
 
 	public DiscountServiceImpl(List<DiscountStrategy> discountStrategies) {

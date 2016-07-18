@@ -3,6 +3,10 @@ package com.epam.moviemanagment.service;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.epam.moviemanagment.dao.auditorium.AuditoriumDAO;
 import com.epam.moviemanagment.dao.event.EventDAO;
 import com.epam.moviemanagment.dao.user.UserDAO;
@@ -10,8 +14,11 @@ import com.epam.moviemanagment.domain.converter.AuditoriumConverter;
 import com.epam.moviemanagment.domain.dto.Auditorium;
 import com.epam.moviemanagment.domain.entity.AuditoriumEntity;
 
+@Component("AuditoriumServiceBean")
+@Scope("prototype")
 public class AuditoriumServiceImpl implements AuditoriumService {
 
+	@Autowired
 	private AuditoriumDAO auditoriumDAO;
 
 	public AuditoriumServiceImpl(final AuditoriumDAO auditoriumDAO) {
