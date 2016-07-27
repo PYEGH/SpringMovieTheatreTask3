@@ -26,8 +26,11 @@ public class BirthdayDiscountStrategy extends AbstractDiscountStrategy {
 		final int eventDayOfMonth = date.get(Calendar.DAY_OF_MONTH);
 		final int userDayOfMonth = user.getBirthday()
 				.get(Calendar.DAY_OF_MONTH);
+		final int eventMonth = date.get(Calendar.MONTH);
+		final int userMonth = user.getBirthday().get(Calendar.MONTH);
 
-		return eventDayOfMonth == userDayOfMonth ? this.discount : NO_DISCOUNT;
+		return eventDayOfMonth == userDayOfMonth && eventMonth == userMonth ? this.discount
+				: NO_DISCOUNT;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.epam.moviemanagment.demonstration;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -13,18 +14,21 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.epam.moviemanagment.aspect.CounterAspect;
+import com.epam.moviemanagment.dao.ticket.TicketDAO;
 import com.epam.moviemanagment.domain.converter.EventConverter;
 import com.epam.moviemanagment.domain.dto.Auditorium;
 import com.epam.moviemanagment.domain.dto.Event;
 import com.epam.moviemanagment.domain.dto.Ticket;
 import com.epam.moviemanagment.domain.dto.User;
 import com.epam.moviemanagment.domain.entity.EventEntity;
+import com.epam.moviemanagment.domain.entity.TicketEntity;
 import com.epam.moviemanagment.service.AuditoriumService;
 import com.epam.moviemanagment.service.BookingService;
 import com.epam.moviemanagment.service.EventService;
 import com.epam.moviemanagment.service.UserService;
 import com.epam.moviemanagment.service.discount.DiscountService;
 import com.epam.moviemanagment.storage.EventStaticStorage;
+import com.epam.moviemanagment.storage.TicketStorage;
 
 /**
  * Class is responsible for demonstration of services work. Some scenarios were
@@ -46,19 +50,37 @@ public class Demonstrator {
 	public DiscountService discountService;
 	@Autowired
 	public EventService eventService;
+	
+	@Autowired
+	public TicketDAO ticketDao;
 
 	public Demonstrator(final UserService userService,
 			final AuditoriumService auditoriumService,
 			final BookingService bookingService,
 			final DiscountService discountService,
-			final EventService eventService) {
+			final EventService eventService, final TicketDAO ticketDao) {
 		this.userService = userService;
 		this.auditoriumService = auditoriumService;
 		this.bookingService = bookingService;
 		this.discountService = discountService;
 		this.eventService = eventService;
+		this.ticketDao = ticketDao;
 	}
 
+	
+	public void demonstrateTicketDaoWork(){
+		TicketEntity te = this.ticketDao.getById(new Long(1));
+		
+		logger.info(te == null ? "ticket was not found" : "ticket for event " + te.getEventEntity().getName());
+		
+		TicketEntity ticketForSave = TicketStorage.getTickets().get(19);
+		this.ticketDao.save(ticketForSave);
+		this.ticketDao.remove(ticketForSave);
+		
+		Event event = this.eventService.getById(new Long(1));		
+		//this.ticketDao.getPurchasedTicketsForEvent(event, event.getAirDates().iterator().next());		
+	}
+	
 	/**
 	 * Demonstrates auditoriumService work.
 	 */
@@ -105,6 +127,27 @@ public class Demonstrator {
 		final double totalPrice = this.bookingService.getTicketsPrice(event,
 				eventDate, user, seatForBooking);
 		logger.info("Total price with discount: " + totalPrice);
+	}
+	
+	
+	public void demonstrateAuditoriumDBDao(){
+		
+		logger.info("Number of auditories: " + this.auditoriumService.getById(new Long(2)));
+		logger.info("Number of auditories: " + this.auditoriumService.getAll().size());
+		logger.info("Number of seats for auditoriy with name 'Aud2': " + this.auditoriumService.getByName("Aud2").getNumberOfSeats());
+	}
+	
+	public void demonstrateEventDBDao(){
+		final EventEntity eventEntity = EventStaticStorage.getEvents().get(0);
+		final Event event = EventConverter.toDto(eventEntity);
+		final GregorianCalendar eventDate = new GregorianCalendar(2016, 7, 10,
+				15, 0);
+		
+		this.eventService.save(event);
+		logger.info("Get by name: " + this.eventService.getByName(event.getName()).getName());
+		logger.info("Get by id: " + this.eventService.getById(event.getId()).getName());
+		this.eventService.remove(event);
+		logger.info("All events size: " + this.eventService.getAll().size());
 	}
 
 	/**
@@ -180,17 +223,29 @@ public class Demonstrator {
 		logger.info('\n' + "Demonstration of user cetreation:");
 		logger.info("Number users before user creation : "
 				+ this.userService.getAll().size());
+		logger.info("Number users before user creation : "
+				+ this.userService.getAll().size());
 		final User user = new User();
 		user.setAdmin(true);
-		user.setEmail("ivan_ivanov@epam.com");
+		user.setEmail("ivan_ivanov123@epam.com");
 		user.setFirstName("Ivan");
 		user.setLastName("Ivanov");
-		user.setId((long) 3);
+		user.setId((long) 10);
 		user.setTickets(new TreeSet<Ticket>());
 		user.setBirthday(new GregorianCalendar(1990, 7, 10, 15, 0));
 		this.userService.save(user);
+		
+		//logger.info("GetBy ID: " + this.userService.getById(new Long(6)).getFirstName());
+		logger.info("GetBy Email: " + this.userService.getUserByEmail("ivan_ivanov123@epam.com").getEmail());
+		
+		
 		logger.info("Number users after user creation :  "
 				+ this.userService.getAll().size());
-
+		
+		logger.info("Number users after user creation :  "
+				+ this.userService.getAll().size());
+		
+		this.userService.remove(user);
+		logger.info("user by id: " + this.userService.getById(new Long(1)).getEmail());
 	}
 }

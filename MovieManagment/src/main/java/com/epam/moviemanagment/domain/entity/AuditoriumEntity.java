@@ -8,6 +8,8 @@ import java.util.Set;
 
 public class AuditoriumEntity {
 
+	private int id;
+	
     private String name;
 
     private long numberOfSeats;
@@ -92,5 +94,13 @@ public class AuditoriumEntity {
         }
         return true;
     }
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 }

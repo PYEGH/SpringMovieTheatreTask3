@@ -20,4 +20,13 @@ public interface AuditoriumDAO {
 	 * @return found auditorium or <code>null</code>
 	 */
 	AuditoriumEntity getByName(String name);
+	
+	/**
+	 * Finding auditorium by id
+	 * 
+	 * @param id
+	 *            id of the auditorium
+	 * @return found auditorium or <code>null</code>
+	 */
+	AuditoriumEntity getById(Long id);
 }

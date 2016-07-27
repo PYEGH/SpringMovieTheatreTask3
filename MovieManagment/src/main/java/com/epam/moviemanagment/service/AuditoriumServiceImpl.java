@@ -44,4 +44,11 @@ public class AuditoriumServiceImpl implements AuditoriumService {
 				.getByName(name);
 		return AuditoriumConverter.toDto(auditoriumEntity);
 	}
+
+	@Override
+	public Auditorium getById(Long id) {
+		final AuditoriumEntity auditoriumEntity = this.auditoriumDAO
+				.getById(id);
+		return AuditoriumConverter.toDto(auditoriumEntity);
+	}
 }

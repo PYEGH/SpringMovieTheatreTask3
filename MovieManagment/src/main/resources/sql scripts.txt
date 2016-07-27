@@ -1,0 +1,43 @@
+CREATE TABLE auditorium
+(
+ID Number(8) PRIMARY KEY,
+CAPACITY Number(8,5),
+NAME VARCHAR(255),
+VIP_SEATS VARCHAR(255)
+);
+
+CREATE TABLE events
+(
+ID Number(8) PRIMARY KEY,
+NAME VARCHAR(255),
+EVENT_DATE DATE,
+RATING VARCHAR(255),
+PRICE Number(8,5),
+AUD_ID Number(8)
+);
+
+CREATE TABLE tickets
+(
+ID Number(8) PRIMARY KEY,
+TICKET_DATE DATE,
+SEAT Number(8,5),
+USER_ID Number(8) ,
+EVENT_ID  Number(8) 
+);
+
+CREATE TABLE counter
+(
+ID Number(8) PRIMARY KEY,
+TYPE VARCHAR(255),
+ADDITIONAL_INFO VARCHAR(255),
+VALUE Number(8)
+);
+
+Insert into auditorium (ID,CAPACITY,NAME,VIP_SEATS) values (1,200,'Aud1','1,2,3,10,20,30');
+Insert into auditorium (ID,CAPACITY,NAME,VIP_SEATS) values (2,200,'Aud2','1,2,3,10,20,30,40,50');
+INSERT INTO events (ID,NAME,EVENT_DATE,RATING,PRICE,AUD_ID) values (1,'Ev1',TO_DATE('1999/12/31 00:00:00', 'yyyy/mm/dd hh24:mi:ss'),'HIGH',10.45,1);
+INSERT INTO tickets (ID, TICKET_DATE,SEAT,USER_ID ,EVENT_ID) values(1, TO_DATE('1999/12/31 00:00:00', 'yyyy/mm/dd hh24:mi:ss'),10,1,1);
+
+
+
+

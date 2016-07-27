@@ -23,5 +23,7 @@ public interface AuditoriumService {
      * @return found auditorium or <code>null</code>
      */
     Auditorium getByName( String name);
+    
+    Auditorium getById( Long id);
 
 }

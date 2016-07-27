@@ -10,8 +10,10 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.epam.moviemanagment.dao.counter.CounterDao;
 import com.epam.moviemanagment.domain.dto.Event;
 import com.epam.moviemanagment.domain.dto.User;
 import com.epam.moviemanagment.service.discount.BirthdayDiscountStrategy;
@@ -27,6 +29,8 @@ import com.epam.moviemanagment.service.discount.TicketCountDiscountStrategy;
 @Component("discountAspect")
 @Aspect
 public class DiscountAspect {
+	@Autowired
+	private CounterDao counterDao;
 
 	private final Logger logger = Logger.getLogger(DiscountAspect.class);
 
@@ -35,6 +39,10 @@ public class DiscountAspect {
 	private Map<User, Integer> birthdayDiscountUsage = new HashMap<>();
 
 	private Map<DiscountType, Integer> totalCountMap = new HashMap<>();
+	
+	public DiscountAspect(CounterDao counterDao) {
+		this.counterDao = counterDao;
+	}
 
 	@Pointcut("execution(* com.epam.moviemanagment.service.discount.NameDiscountStrategy.calculateDiscount(..))")
 	public void getDiscountForNameDiscountStrategy() {
@@ -80,6 +88,11 @@ public class DiscountAspect {
 		if (!this.totalCountMap.containsKey(type)) {
 			this.totalCountMap.put(type, 0);
 		}
+		// DB counter increasing
+		this.counterDao.increaseCounterValue(type.toString(), user.getId()
+				.toString());
+
+		// Static counter increasing
 		this.totalCountMap.put(type, this.totalCountMap.get(type) + 1);
 
 	}

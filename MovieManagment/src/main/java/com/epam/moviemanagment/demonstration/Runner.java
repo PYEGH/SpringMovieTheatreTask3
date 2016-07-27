@@ -14,10 +14,15 @@ public class Runner {
 				MovieManagmentConfiguration.class);
 		Demonstrator demonstrator = (Demonstrator) ctx.getBean("demonstratorBean");
 		
-		demonstrator.demonstrateAuditoriumsViewing();
-		demonstrator.demonstrateUserCreation();
-		demonstrator.demonstrateTicketsBooking();
-		demonstrator.demonstrateEventGettingAndPriceCalculating();
+		//demonstrator.demonstrateAuditoriumsViewing();
+		//demonstrator.demonstrateUserCreation();
+		//demonstrator.demonstrateTicketsBooking();
+		//demonstrator.demonstrateEventGettingAndPriceCalculating();
+		
+		//demonstrator.demonstrateAuditoriumDBDao();
+		//demonstrator.demonstrateEventDBDao();
+		
+		demonstrator.demonstrateTicketDaoWork();
 		
 		ctx.close();
 	}

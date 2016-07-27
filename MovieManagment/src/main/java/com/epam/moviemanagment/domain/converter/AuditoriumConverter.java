@@ -1,8 +1,6 @@
 package com.epam.moviemanagment.domain.converter;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -13,6 +11,7 @@ public class AuditoriumConverter {
 
 	public static Auditorium toDto(final AuditoriumEntity entity) {
 		final Auditorium dto = new Auditorium();
+		dto.setId(entity.getId());
 		dto.setName(entity.getName());
 		dto.setNumberOfSeats(entity.getNumberOfSeats());
 		dto.setVipSeats(entity.getVipSeats());
@@ -22,6 +21,7 @@ public class AuditoriumConverter {
 
 	public static AuditoriumEntity toEntity(final Auditorium dto) {
 		final AuditoriumEntity entity = new AuditoriumEntity();
+		entity.setId(dto.getId());
 		entity.setName(dto.getName());
 		entity.setNumberOfSeats(dto.getNumberOfSeats());
 		entity.setVipSeats(dto.getVipSeats());

@@ -10,17 +10,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import com.epam.moviemanagment.aspect.CounterAspect;
 import com.epam.moviemanagment.aspect.DiscountAspect;
 import com.epam.moviemanagment.aspect.LuckyWinnerAspect;
+import com.epam.moviemanagment.dao.auditorium.AuditoiumDBDao;
 import com.epam.moviemanagment.dao.auditorium.AuditoriumDAO;
 import com.epam.moviemanagment.dao.auditorium.AuditoriumStaticDAO;
+import com.epam.moviemanagment.dao.counter.CounterDao;
 import com.epam.moviemanagment.dao.event.EventDAO;
+import com.epam.moviemanagment.dao.event.EventDBDao;
+import com.epam.moviemanagment.dao.event.EventRowMapper;
 import com.epam.moviemanagment.dao.event.EventStaticDAO;
 import com.epam.moviemanagment.dao.ticket.TicketDAO;
+import com.epam.moviemanagment.dao.ticket.TicketDBDao;
 import com.epam.moviemanagment.dao.ticket.TicketStaticDAO;
 import com.epam.moviemanagment.dao.user.UserDAO;
+import com.epam.moviemanagment.dao.user.UserDBDao;
 import com.epam.moviemanagment.dao.user.UserStaticDAO;
 import com.epam.moviemanagment.demonstration.Demonstrator;
 import com.epam.moviemanagment.service.AuditoriumService;
@@ -65,21 +73,51 @@ public class MovieManagmentConfiguration {
 
 	@Value("${lucky.number}")
 	private int luckyNumber;
+	
+	// DB properties
+	@Value("${db.classDriver}")
+	private String dbClassDriver;
+	
+	@Value("${db.url}")
+	private String dbUrl;
+	
+	@Value("${db.user}")
+	private String dbUser;
+	
+	@Value("${db.password}")
+	private String dbPassword;
 
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
+	@Bean(name = "jdbcTemplate")
+	public JdbcTemplate jdbcTemplate() {
+		return new JdbcTemplate(driverManagerDataSource());
+	}
+
+	@Bean(name = "dataSource")
+	public DriverManagerDataSource driverManagerDataSource() {
+		return new DriverManagerDataSource(dbClassDriver, dbUrl, dbUser, dbPassword);
+	}
+
 	@Bean(name = "demonstratorBean")
 	public Demonstrator demonstrator() {
 		return new Demonstrator(userService(), auditoriumService(),
-				bookingService(), discountService(), eventService());
+				bookingService(), discountService(), eventService(),
+				ticketDAO());
+	}
+
+	@Bean(name = "counterDAOBean")
+	public CounterDao counterDao() {
+		return new CounterDao();
 	}
 
 	@Bean(name = "userDAOBean")
 	public UserDAO userDAO() {
-		return new UserStaticDAO();
+		// return new UserStaticDAO();
+		return new UserDBDao();
 	}
 
 	@Bean(name = "userServiceBean")
@@ -89,7 +127,8 @@ public class MovieManagmentConfiguration {
 
 	@Bean(name = "auditoriumDAOBean")
 	public AuditoriumDAO auditoriumDAO() {
-		return new AuditoriumStaticDAO();
+		return new AuditoiumDBDao();
+		// return new AuditoriumStaticDAO();
 	}
 
 	@Bean(name = "auditoriumServiceBean")
@@ -99,7 +138,8 @@ public class MovieManagmentConfiguration {
 
 	@Bean(name = "eventDAOBean")
 	public EventDAO eventDAO() {
-		return new EventStaticDAO();
+		return new EventDBDao();
+		// return new EventStaticDAO();
 	}
 
 	@Bean(name = "eventServiceBean")
@@ -120,7 +160,8 @@ public class MovieManagmentConfiguration {
 
 	@Bean(name = "ticketDAOBean")
 	public TicketDAO ticketDAO() {
-		return new TicketStaticDAO();
+		return new TicketDBDao();
+		// return new TicketStaticDAO();
 	}
 
 	@Bean(name = "nameDiscountStrategyBean")
@@ -150,12 +191,12 @@ public class MovieManagmentConfiguration {
 
 	@Bean(name = "counterAspect")
 	public CounterAspect counterAspect() {
-		return new CounterAspect();
+		return new CounterAspect(counterDao());
 	}
 
 	@Bean(name = "discountAspect")
 	public DiscountAspect discountAspect() {
-		return new DiscountAspect();
+		return new DiscountAspect(counterDao());
 	}
 
 	@Bean(name = "luckyWinnerAspect")

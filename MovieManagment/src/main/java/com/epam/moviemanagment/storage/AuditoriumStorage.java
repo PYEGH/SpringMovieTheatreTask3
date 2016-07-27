@@ -26,13 +26,14 @@ public class AuditoriumStorage {
 		final Properties prop2 = getProperty("./src/main/resources/auditorium2.properties");
 		properties.add(prop1);
 		properties.add(prop2);
-		
+		int i=0;
 		for(final Properties prop: properties){
 			final AuditoriumEntity aud = new AuditoriumEntity();
 			final String name = prop.getProperty("name");
 			final Long numberOfSeat = Long.parseLong(prop.getProperty("numberOfSeats"));
 			final Set<Long> vipSeats = AuditoriumConverter.convertStringWithVipSeatsToLongList(prop1.getProperty("vipSeats"));
-			
+			i++;
+			aud.setId(i);
 			aud.setName(name);
 			aud.setNumberOfSeats(numberOfSeat);
 			aud.setVipSeats(vipSeats);
